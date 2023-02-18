@@ -1,7 +1,7 @@
 # BackpackSync
 This is a fabric mod that Allows you to sync player inventories, experience across multiple servers! This is accomplished using an Mysql database. In theory, most mods with nbt tags are supported.
 
-Don't worry about creating a new world or clearing the player inventory before you can use it. This is just writing and replacing!.
+Don't worry about creating a new world or clearing the player inventory before you can use it. This is just writing and replacing!
 Feel free to use it in your own projects!
 
 # Help Me
