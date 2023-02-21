@@ -13,8 +13,8 @@ public class ConfigData {
     }
     public static class MysqlData {
 
-        private String ip = "127.0.0.1";
-        private int port = 8080;
+        private String ip = "localhost";
+        private int port = 3306;
         private String username = "root";
         private String password = "123456";
 
