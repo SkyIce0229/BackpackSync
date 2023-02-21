@@ -1,6 +1,6 @@
 <p align="center">
-    <a href="readme.md.md">English</a> |
-    <a href="readmezh.md.md">简体中文</a> 
+    <a href="readme.md">English</a> |
+    <a href="readmezh.md">简体中文</a> 
 </p>
 
 #BackpackSync（背包同步）
