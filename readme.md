@@ -30,4 +30,4 @@ If you find any bugs or glitches, be sure to make a bug report under issues and 
 
 # Supporting plugin/another work
 
-<a href="https://github.com/SkyIce0229/BackpackSyncForSpigot">BackpackSync Spigot plugin</a> 
+<a href="https://github.com/SkyIce0229/BackpackSyncForSpigot">BackpackSync Spigot plugin</a>
