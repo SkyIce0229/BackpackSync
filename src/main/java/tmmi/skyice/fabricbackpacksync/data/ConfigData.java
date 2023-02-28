@@ -8,8 +8,9 @@ public class ConfigData {
         return mysqlData;
     }
 
-    public void setMysqlData(MysqlData mysqlData) {
+    public ConfigData setMysqlData(MysqlData mysqlData) {
         this.mysqlData = mysqlData;
+        return null;
     }
     public static class MysqlData {
 

@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 public class LogUtil {
     private LogUtil() {
     }
-    public static final Logger LOGGER = LoggerFactory.getLogger("BackPack");
+    public static final Logger LOGGER = LoggerFactory.getLogger("BackPackSync");
 
     public  static  Logger getLogger() {
         return LOGGER;

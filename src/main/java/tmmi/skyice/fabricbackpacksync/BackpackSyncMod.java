@@ -8,6 +8,9 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.fabricmc.api.DedicatedServerModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
+import net.fabricmc.loader.api.FabricLoader;
+import net.fabricmc.loader.api.ModContainer;
+import net.fabricmc.loader.api.metadata.ModMetadata;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.nbt.StringNbtReader;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -19,16 +22,30 @@ import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
-
 public class BackpackSyncMod implements DedicatedServerModInitializer {
-    public static final String MOD_ID = "backpack_together";
+    public static final String MOD_ID = "backpacksync";
+    public static String version;
+    static {
+        ModContainer modContainer = FabricLoader.getInstance().getModContainer(MOD_ID).orElse(null);
+        if (modContainer != null) {
+            // 获取元数据
+            ModMetadata modMetadata = modContainer.getMetadata();
+            version = modMetadata.getVersion().getFriendlyString();
+        }
+    }
+    public static final String MOD_Version = version;
     @Override
     public void onInitializeServer() {
 //服务器初始化完毕
         ServerLifecycleEvents.SERVER_STARTED.register(server -> {
             try {
                 ModConfig.createConfigYaml();
-                LogUtil.LOGGER.info("Mod ready!");
+                LogUtil.LOGGER.info("-------------------------------------------------------");
+                LogUtil.LOGGER.info("MOD已就绪");
+                LogUtil.LOGGER.info(MOD_ID+"当前版本："+MOD_Version);
+                LogUtil.LOGGER.info("作者：SkyIce");
+                LogUtil.LOGGER.info("-------------------------------------------------------");
+                LogUtil.LOGGER.info("感谢您的使用");
             } catch (IOException e) {
                 e.printStackTrace();
             }

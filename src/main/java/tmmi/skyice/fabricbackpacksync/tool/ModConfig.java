@@ -35,6 +35,7 @@ public class ModConfig {
         //当不存在或为空时创建文件
         if (!file.exists() || file.length() == 0) {
             try (FileOutputStream stream = new FileOutputStream(file)) {
+                ConfigData configData = new ConfigData();
                 configData.setMysqlData(new ConfigData.MysqlData());
                 byte[] bytes = new YAMLMapper().writeValueAsBytes(configData);
                 stream.write(bytes);
@@ -42,7 +43,6 @@ public class ModConfig {
             } catch (IOException e) {
                 LogUtil.LOGGER.warn(String.valueOf(e));
             }
-            return;
         }
 
         //读取配置文件
