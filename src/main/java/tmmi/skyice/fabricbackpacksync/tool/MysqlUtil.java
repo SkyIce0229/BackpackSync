@@ -77,7 +77,6 @@ public class MysqlUtil {
         try (Connection conn = getConnection();PreparedStatement dbstmt = conn.prepareStatement(inserttable)){
             dbstmt.setString(1, name);
             dbstmt.setString(2, inventory);
-            LogUtil.LOGGER.info(inserttable);
             try {
 
                 if (dbstmt.executeUpdate() == 1){
