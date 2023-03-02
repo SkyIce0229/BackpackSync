@@ -3,7 +3,6 @@ package tmmi.skyice.fabricbackpacksync.tool;
 import tmmi.skyice.fabricbackpacksync.data.ConfigData;
 
 import java.sql.*;
-import java.util.UUID;
 
 public class MysqlUtil {
     static {
@@ -47,7 +46,7 @@ public class MysqlUtil {
         try (Connection dbConnection = DriverManager.getConnection(url+sqlName,username,password);
              Statement dbstmt = dbConnection.createStatement()) {
             //尝试建表
-            String createtable = "CREATE TABLE if not exists `player_backpack` (`uuid` varchar(36),`nbt` text);";
+            String createtable = "CREATE TABLE IF NOT EXISTS `player_backpack` (`id` bigint NOT NULL AUTO_INCREMENT COMMENT 'id',`name` varchar(36) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,`nbt` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,PRIMARY KEY (`id`) USING BTREE,UNIQUE INDEX `uk_name`(`name` ASC) USING BTREE)";
 
             try {
                 if (dbstmt.executeUpdate(createtable) == 1){
@@ -71,15 +70,17 @@ public class MysqlUtil {
             return DriverManager.getConnection(url+sqlName,configData.getMysqlData().getUsername(),configData.getMysqlData().getPassword());
     }
 
-        public static boolean insertTable (String uuid, String inventory){
-
-            //连接数据库
-        try (Connection conn = getConnection();Statement dbstmt = conn.createStatement()){
+        public static boolean insertTable (String name, String inventory){
             //插入命令
-            String inserttable = "insert into `player_backpack` values ('" + uuid + "','" + inventory + "')";
+            String inserttable = "insert into `player_backpack` (name, nbt) values (?,?)";
+            //连接数据库
+        try (Connection conn = getConnection();PreparedStatement dbstmt = conn.prepareStatement(inserttable)){
+            dbstmt.setString(1, name);
+            dbstmt.setString(2, inventory);
             LogUtil.LOGGER.info(inserttable);
             try {
-                if (dbstmt.executeUpdate(inserttable) == 1){
+
+                if (dbstmt.executeUpdate() == 1){
                     LogUtil.LOGGER.info("数据插入成功");
                     return true;
                 }
@@ -93,13 +94,13 @@ public class MysqlUtil {
            return false;
     }
 
-    public static boolean updataTable (String uuid, String inventory){
+    public static boolean updataTable (String name, String inventory){
         //插入命令
-        String updatatable = "update player_backpack set nbt = ? where uuid = ?";
+        String updatatable = "update player_backpack set nbt = ? where name = ?";
         //连接数据库
         try (Connection conn = getConnection();PreparedStatement dbstmt = conn.prepareStatement(updatatable)){
             dbstmt.setString(1, inventory);
-            dbstmt.setString(2, uuid);
+            dbstmt.setString(2, name);
 
             try {
                 if (dbstmt.executeUpdate() == 1){
@@ -116,12 +117,12 @@ public class MysqlUtil {
         return false;
     }
 
-    public static String selectData (UUID uuid) {
+    public static String selectData (String name) {
 
         //连接数据库
         try (Connection conn = getConnection();Statement dbstmt = conn.createStatement()){
             //查询命令
-            String selectdata = "select nbt from player_backpack where uuid = '"+uuid+"'";
+            String selectdata = "select nbt from player_backpack where name = '"+name+"'";
             try {
                     ResultSet selected = dbstmt.executeQuery(selectdata);
                     if (selected.next()){

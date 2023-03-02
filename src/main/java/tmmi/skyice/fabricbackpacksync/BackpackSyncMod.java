@@ -66,9 +66,9 @@ public class BackpackSyncMod implements DedicatedServerModInitializer {
                             dataObj.addProperty("inventory", nbtStr);
                             dataObj.addProperty("xp", player.experienceProgress);
                             dataObj.addProperty("level", player.experienceLevel);
-                            if (MysqlUtil.updataTable(player.getUuid().toString(), dataObj.toString())) {
+                            if (MysqlUtil.updataTable(player.getName().getString(), dataObj.toString())) {
                                 LogUtil.LOGGER.info("更新成功");
-                            }else if ( MysqlUtil.insertTable(player.getUuid().toString(),dataObj.toString())){
+                            }else if ( MysqlUtil.insertTable(player.getName().getString(),dataObj.toString())){
                                 LogUtil.LOGGER.info("保存成功");
                             }
                         }
@@ -87,23 +87,26 @@ public class BackpackSyncMod implements DedicatedServerModInitializer {
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> { new Thread(() -> {
             ServerPlayerEntity player = handler.getPlayer();
             //输入uuid数据库查询后返回String 后给data赋值
-            String data = MysqlUtil.selectData(player.getUuid());
-            try {
-                //解析Json字符串
-                JsonObject dataObj = JsonParser.parseString(data).getAsJsonObject();
-                //数据库获取背包nbt
-                NbtList inventoryNbt = (NbtList) new StringNbtReader(new StringReader(dataObj.get("inventory").getAsString())).parseElement();
-                //设置背包
-                player.getInventory().readNbt(inventoryNbt);
-                //设置经验
-                //数据库获取XP
-                player.experienceProgress = dataObj.get("xp").getAsFloat();
-                //设置等级
-                //从数据库获取经验Level
-                player.experienceLevel = dataObj.get("level").getAsInt();
+            String data = MysqlUtil.selectData(player.getName().toString());
+            LogUtil.LOGGER.info(player.getName().getString());
+            if (data != null){
+                try {
+                    //解析Json字符串
+                    JsonObject dataObj = JsonParser.parseString(data).getAsJsonObject();
+                    //数据库获取背包nbt
+                    NbtList inventoryNbt = (NbtList) new StringNbtReader(new StringReader(dataObj.get("inventory").getAsString())).parseElement();
+                    //设置背包
+                    player.getInventory().readNbt(inventoryNbt);
+                    //设置经验
+                    //数据库获取XP
+                    player.experienceProgress = dataObj.get("xp").getAsFloat();
+                    //设置等级
+                    //从数据库获取经验Level
+                    player.experienceLevel = dataObj.get("level").getAsInt();
 
-            } catch (CommandSyntaxException e) {
-                e.printStackTrace();
+                } catch (CommandSyntaxException e) {
+                    e.printStackTrace();
+                }
             }
         }).start();
         });
@@ -119,9 +122,9 @@ public class BackpackSyncMod implements DedicatedServerModInitializer {
                 dataObj.addProperty("inventory", nbtStr);
                 dataObj.addProperty("xp", player.experienceProgress);
                 dataObj.addProperty("level", player.experienceLevel);
-                if (MysqlUtil.updataTable(player.getUuid().toString(), dataObj.toString())) {
+                if (MysqlUtil.updataTable(player.getName().getString(), dataObj.toString())) {
                     LogUtil.LOGGER.info("更新成功");
-                }else if ( MysqlUtil.insertTable(player.getUuid().toString(),dataObj.toString())){
+                }else if (MysqlUtil.insertTable(player.getName().getString(),dataObj.toString())){
                     LogUtil.LOGGER.info("保存成功");
                 }
             } catch (Exception e) {
