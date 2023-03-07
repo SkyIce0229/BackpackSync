@@ -117,7 +117,7 @@ public class MysqlUtil {
     }
 
     public static String selectData (String name) {
-
+        String data = null;
         //连接数据库
         try (Connection conn = getConnection();Statement dbstmt = conn.createStatement()){
             //查询命令
@@ -125,7 +125,7 @@ public class MysqlUtil {
             try {
                     ResultSet selected = dbstmt.executeQuery(selectdata);
                     if (selected.next()){
-                        String data = selected.getString("nbt");
+                        data = selected.getString("nbt");
                         LogUtil.LOGGER.info("查询到数据");
                         return data;
                     }
@@ -137,7 +137,7 @@ public class MysqlUtil {
             LogUtil.LOGGER.error("数据库连接失败:",e.getMessage());
         }
 
-        return null;
+        return data;
     }
 
 
