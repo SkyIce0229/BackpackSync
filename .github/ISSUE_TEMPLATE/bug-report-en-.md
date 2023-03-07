@@ -25,6 +25,7 @@ If applicable, add screenshots to help explain your problem.
 
 **Desktop (please complete the following information):**
  - OS: [Windows10/11]
+- version:[Fabric/Spigot]
 
 **Additional context**
 Add any other context about the problem here.

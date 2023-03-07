@@ -34,6 +34,7 @@ assignees: ''
 **桌面（请填写以下信息）：**
 
 -操作系统：[win10/11]
+-版本：[Fabric/Spigot]
 
 
 
