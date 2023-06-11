@@ -10,14 +10,14 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-
+import java.sql.SQLException;
 
 
 public class ModConfig {
 
     public static ConfigData configData;
 
-    public static void createConfigYaml() throws IOException {
+    public static void createConfigYaml() throws IOException, SQLException {
 
         //设置yml格式，一般使用的是最喜欢的格式
         DumperOptions dumperOptions = new DumperOptions();
@@ -40,8 +40,6 @@ public class ModConfig {
                 byte[] bytes = new YAMLMapper().writeValueAsBytes(configData);
                 stream.write(bytes);
 
-            } catch (IOException e) {
-                LogUtil.LOGGER.warn(String.valueOf(e));
             }
         }
 
@@ -49,12 +47,10 @@ public class ModConfig {
         try (FileInputStream stream = new FileInputStream(file)){
             byte[] bytes = stream.readAllBytes();
 
-           String data = new String(bytes, StandardCharsets.UTF_8);
+            String data = new String(bytes, StandardCharsets.UTF_8);
             ObjectMapper mapper = new YAMLMapper();
             configData = mapper.readValue(data,ConfigData.class);
-            MysqlUtil.getConnection(configData);
-        } catch (IOException e){
-            LogUtil.LOGGER.warn(String.valueOf(e));
+            MysqlUtil.initDatabase(configData);
         }
 
 
