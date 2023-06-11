@@ -15,7 +15,6 @@ import tmmi.skyice.fabricbackpacksync.tool.LogUtil;
 import tmmi.skyice.fabricbackpacksync.tool.ModConfig;
 import tmmi.skyice.fabricbackpacksync.tool.MysqlUtil;
 
-import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -46,8 +45,8 @@ public class BackpackSyncMod implements DedicatedServerModInitializer {
                 LogUtil.LOGGER.info("作者：SkyIce");
                 LogUtil.LOGGER.info("-------------------------------------------------------");
                 LogUtil.LOGGER.info("感谢您的使用");
-            } catch (IOException e) {
-                e.printStackTrace();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
             }
 
             //定时器：半个小时保存一次

@@ -18,13 +18,15 @@ public class ConfigData {
         private int port = 3306;
         private String username = "root";
         private String password = "123456";
+        private String database = "minecraft";
 
         public MysqlData(){}
-        public MysqlData (String ip, int port, String username, String password){
+        public MysqlData (String ip, int port, String username, String password, String database){
             this.ip = ip;
             this.port = port;
             this.username = username;
             this.password = password;
+            this.database = database;
         }
 
 
@@ -59,6 +61,14 @@ public class ConfigData {
             this.password = password;
         }
 
+        public String getDatabase() {
+            return database;
+        }
+
+        public void setDatabase(String database) {
+            this.database = database;
+        }
+
         @Override
         public String toString() {
             return "MysqlData{" +
@@ -66,6 +76,7 @@ public class ConfigData {
                     ", port=" + port +
                     ", username='" + username + '\'' +
                     ", password='" + password + '\'' +
+                    ", password='" + database + '\'' +
                     '}';
         }
     }
